@@ -16,10 +16,10 @@ public class ElectronicShop implements Product{
     public void displayInfo() {
         System.out.print("\nWelcome to the Electronic Shop!" +
                 "\nHere is the price list of our products:" +
-                "\n1.Iphone 15 pro - " + iphone15pro +
-                "\n2.MacBook Air - " + macBookAir +
+                "\n1.Iphone 15 pro 256 gb - " + iphone15pro +
+                "\n2.MacBook Air 512 - " + macBookAir +
                 "\n3.Airpods Pro - " + airPodsPro +
-                "\n4.IPad - " + iPad +
+                "\n4.IPad 256- " + iPad +
                 "\nIf you'd like to order smth from the list, put the serial number of the product:");
     }
 

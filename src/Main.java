@@ -6,7 +6,6 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         ElectronicShop electronicShop = new ElectronicShop(1299, 999, 299, 899);
-        ClothingShop clothingShop = new ClothingShop(3, 5, 1, 12);
 
         int serialNumber; // Серийный номер товара
         double distance; // Как далеко находится клиент
@@ -62,45 +61,71 @@ public class Main {
                 break;
 
             case 2:
-                clothingShop.displayInfo();
-                serialNumber = scanner.nextInt();
+                System.out.println("Enter brand (Nike, Adidas, Lacoste, CK):");
+                String brand = scanner.next();
 
-                clothingShop.isNotFreeShipping();
-                System.out.print("\nSo, we need to know, how far are you?" +
-                        "\nPut the distance - ");
-                distance = scanner.nextInt();
-
-                priceWithShipping = clothingShop.calculateShippingCost(distance,serialNumber);
-
-                System.out.println("\nYou need to pay - " + priceWithShipping + "$" +
-                        "\nDo you know discount phrase?" +
-                        "\n1.Yes" +
-                        "\n2.No");
-                answer = scanner.nextInt();
-                switch (answer){
-                    case 1:
-                        System.out.print("Write the secret phrase - ");
-                        String secretPhrase = scanner.next();
-                        if (secretPhrase.equals("Discount") || secretPhrase.equals("discount")){
-                            finalPrice = clothingShop.discountPrice(priceWithShipping);
-                            System.out.println("Your final price with discount - " + finalPrice + "$" +
-                                    "\nThank you for buying!");
-                            break;
-                        }
-                        else {
-                            System.out.println("You will not get a discount, you need to pay full sum - " +
-                                    priceWithShipping + "$ " +
-                                    "\nThank you for buying!");
-                            break;
-                        }
-                    case 2:
-                        System.out.println("Okay, you need to pay - " + priceWithShipping + "$" +
-                                "\nThank you for buying! " +
-                                "\nBy the way, the secret phrase is (Discount or discount)");
+                double price;
+                switch (brand) {
+                    case "nike":
+                        price = 80.0;
                         break;
+                    case "adidas":
+                        price = 70.0;
+                        break;
+                    case "lacoste":
+                        price = 100.0;
+                        break;
+                    case "ck":
+                        price = 95.0;
+                        break;
+                    default:
+                        System.out.println("Unknown brand");
+                        scanner.close();
+                        return;
                 }
-                break;
-            default:
-                System.out.println("Wrong number of shop!");}
+
+                System.out.println("Enter type of clothing (shirt, pants, shoes, hoodie):");
+                String typeOfCloth = scanner.next();
+
+                switch (typeOfCloth) {
+                    case "shirt":
+                        price += 10.0;
+                        break;
+                    case "pants":
+                        price += 15.0;
+                        break;
+                    case "shoes":
+                        price += 20.0;
+                        break;
+                    case "hoodie":
+                        price += 25.0;
+                        break;
+                    default:
+                        System.out.println("Unknown type");
+                        scanner.close();
+                        return;
+                }
+
+                System.out.println("Enter the distance for shipping:");
+                distance = scanner.nextDouble();
+
+                ClothingProduct product = new ClothingProduct(brand, price, typeOfCloth);
+                product.displayInfo();
+
+                double discountedPrice = product.DiscountPrice(0);
+
+                if (product.isFreeShipping(distance)) {
+                    System.out.println("Free Shipping is applicable for this order!");
+                    double totalCost = discountedPrice;
+                    System.out.println("Total cost " + totalCost + " $");
+                } else {
+                    double shippingCost = product.calculateShippingCost(distance);
+                    System.out.println("Shipping Cost: $" + shippingCost);
+
+
+                    double totalCostWithShipping = discountedPrice + shippingCost;
+                    System.out.println("Total cost " + totalCostWithShipping + " $");
+                }
+        }
     }
 }
